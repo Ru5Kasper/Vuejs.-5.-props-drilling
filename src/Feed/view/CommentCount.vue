@@ -1,15 +1,14 @@
+<!-- src/Feed/view/CommentCount.vue -->
 <script setup>
 import { useCounter } from '@/composables/useCounter'
+import { inject } from 'vue'
 
-const props = defineProps({
-  comment: Number,
-  productId: {
-    type: Number,
-    required: true,
-  },
-})
+// Получаем ID через inject (альтернатива: через props)
+const productId = inject('productId')
+const meta = inject('meta')
 
-const { count, isActive, toggle } = useCounter('comments', props.productId, props.comment)
+// Используем composable
+const { count, isActive, toggle } = useCounter('comments', productId, meta.comment)
 </script>
 
 <template>

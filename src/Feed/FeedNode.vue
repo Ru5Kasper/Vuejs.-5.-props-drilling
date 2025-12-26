@@ -1,18 +1,21 @@
+<!-- src/Feed/FeedNode.vue -->
 <script setup>
+import { provide } from 'vue'
 import FeedType from './FeedType.vue'
 
-defineProps({
-  product: Object,
+const props = defineProps({
+  product: Object, // Получаем продукт из App.vue
 })
 
-const emit = defineEmits({
-  kupit: null,
-})
+// 1. Предоставляем ВСЕ данные для всего поддерева
+provide('product', props.product)
+provide('productId', props.product.id)
+provide('meta', props.product.meta)
+provide('user', props.product.user)
 
-const onKupit = (id) => {
-  emit('kupit', id)
-}
+// 2. Эмиты больше не нужны - вся логика в FeedFooter
 </script>
+
 <template>
   <div class="border p-3">
     <div class="border p-5 mb-2">
@@ -22,11 +25,7 @@ const onKupit = (id) => {
       </p>
     </div>
 
-    <FeedType
-      :product="product"
-      :user="product.user"
-      :meta="product.meta"
-      @kupit="onKupit"
-    ></FeedType>
+    <!-- 3. Передаем только необходимые пропсы -->
+    <FeedType />
   </div>
 </template>

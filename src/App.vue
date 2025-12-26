@@ -1,3 +1,4 @@
+<!-- src/App.vue -->
 <script setup>
 import { onMounted } from 'vue'
 import FeedNode from './Feed/FeedNode.vue'
@@ -6,11 +7,11 @@ import { useCartStore } from '@/stores/cartStore'
 
 const cartStore = useCartStore()
 
-// Инициализируем продукты
+// Исходные данные продуктов
 const products = [
   {
     id: 1,
-    name: 'Test 1',
+    name: 'Test',
     price: 500,
     collection_medias: ['media1', 'media2', 'media3'],
     meta: {
@@ -25,7 +26,7 @@ const products = [
   },
   {
     id: 2,
-    name: 'Test 2',
+    name: 'Test 3',
     price: 5000,
     collection_medias: ['media1'],
     meta: {
@@ -40,9 +41,14 @@ const products = [
   },
 ]
 
+// Инициализация при монтировании
 onMounted(() => {
   cartStore.setProducts(products)
+  // Можно загрузить данные с сервера
+  // fetchProducts().then(data => cartStore.setProducts(data))
 })
+
+// Больше нет обработчика onKupit - вся логика в компонентах
 </script>
 
 <template>
@@ -50,6 +56,7 @@ onMounted(() => {
     <HeaderApp />
 
     <div class="grid grid-cols-2 gap-6">
+      <!-- Передаем только product, остальное внутри через provide -->
       <FeedNode :product="product" v-for="product in products" :key="product.id" />
     </div>
   </div>
