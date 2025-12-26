@@ -1,16 +1,9 @@
 <script setup>
-import { computed } from 'vue'
+import { useCartStore } from '@/stores/cartStore'
 
-const props = defineProps({
-  purchased: Array,
-})
-
-const sum = computed(() =>
-  props.purchased.reduce((total, product) => {
-    return total + product.price
-  }, 0),
-)
+const cartStore = useCartStore()
 </script>
+
 <template>
-  <div class="p-3 text-2xl mb-10">Общая сумма покупок: {{ sum }}</div>
+  <div class="p-3 text-2xl mb-10">Общая сумма покупок: {{ cartStore.totalSum }}</div>
 </template>

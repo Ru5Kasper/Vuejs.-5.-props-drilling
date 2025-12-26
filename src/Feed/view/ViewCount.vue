@@ -1,28 +1,22 @@
 <script setup>
-import { ref } from 'vue'
+import { useCounter } from '@/composables/useCounter'
 
 const props = defineProps({
   view: Number,
+  productId: {
+    type: Number,
+    required: true,
+  },
 })
 
-const count = ref(props.view)
-const isActive = ref(false)
-
-const handleClick = () => {
-  if (isActive.value) {
-    count.value--
-    isActive.value = false
-  } else {
-    count.value++
-    isActive.value = true
-  }
-}
+const { count, isActive, toggle } = useCounter('views', props.productId, props.view)
 </script>
+
 <template>
   <div
     class="flex gap-3 cursor-pointer select-none transition-all hover:scale-110"
     :class="{ 'text-green-500': isActive }"
-    @click="handleClick"
+    @click="toggle"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +33,6 @@ const handleClick = () => {
       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
       <circle cx="12" cy="12" r="3"></circle>
     </svg>
-
     {{ count }}
   </div>
 </template>

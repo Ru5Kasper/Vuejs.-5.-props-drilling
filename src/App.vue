@@ -1,14 +1,16 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted } from 'vue'
 import FeedNode from './Feed/FeedNode.vue'
 import HeaderApp from './HeaderApp.vue'
+import { useCartStore } from '@/stores/cartStore'
 
-const purchased = ref([])
+const cartStore = useCartStore()
 
-const products = ref([
+// Инициализируем продукты
+const products = [
   {
     id: 1,
-    name: 'Test',
+    name: 'Test 1',
     price: 500,
     collection_medias: ['media1', 'media2', 'media3'],
     meta: {
@@ -21,10 +23,9 @@ const products = ref([
       full_name: 'Alex Alex Alex',
     },
   },
-
   {
     id: 2,
-    name: 'Test 3',
+    name: 'Test 2',
     price: 5000,
     collection_medias: ['media1'],
     meta: {
@@ -37,20 +38,19 @@ const products = ref([
       full_name: 'Palex Palex Palex',
     },
   },
-])
+]
 
-const onKupit = (id) => {
-  const product = products.value.find((i) => i.id == id)
-  purchased.value.push({ ...product })
-}
+onMounted(() => {
+  cartStore.setProducts(products)
+})
 </script>
 
 <template>
   <div class="p-6 container mx-auto">
-    <HeaderApp :purchased="purchased" />
+    <HeaderApp />
 
     <div class="grid grid-cols-2 gap-6">
-      <FeedNode :product="product" v-for="product in products" :key="product.id" @kupit="onKupit" />
+      <FeedNode :product="product" v-for="product in products" :key="product.id" />
     </div>
   </div>
 </template>
